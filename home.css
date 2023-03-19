@@ -1,0 +1,35 @@
+body {
+  background-color: #f1f1f1;
+}
+
+.container {
+  background-color: #fff;
+  width: 50%;
+  margin: 50px auto;
+  padding: 20px;
+  text-align: center;
+}
+
+h1 {
+  font-size: 36px;
+  margin-bottom: 20px;
+}
+
+.btn-group {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn {
+  color: white;
+  background: purple;
+  padding: 8px 12px;
+  font-size: 20px;
+  border: 2px solid white;
+  border-radius: 14px;
+  cursor: pointer;
+  margin: 20px;
+}
+
