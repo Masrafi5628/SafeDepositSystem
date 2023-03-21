@@ -10,27 +10,35 @@ if (isset($_POST['login'])) {
     if (!$con) {
         die("connection to this database failed due to" . mysqli_connect_error());
     }
-
+    
     $email = $_POST['email'];
-    $name = $_POST['name'];
     $role = $_POST['role'];
+    $password = $_POST['password'];
 
     if ($role == 'employee') {
-        $sql = "SELECT * FROM Employee WHERE name='$name' AND email='$email'";
+        $sql = "SELECT password_hash FROM Employee WHERE email='$email'";
     } else {
-        $sql = "SELECT * FROM Customer WHERE name='$name' AND email='$email'";
+        $sql = "SELECT password_hash FROM Customer WHERE email='$email'";
     }
 
     $result = mysqli_query($con, $sql);
 
     if (mysqli_num_rows($result) == 1) {
-        // login successful, redirect to profile page
-        if ($role == 'employee') {
-            header('location: employeeProfile.php');
-            exit();
+        $row = mysqli_fetch_assoc($result);
+        $hashed_password = $row['password_hash'];
+
+        if (password_verify($password, $hashed_password)) {
+            // login successful, redirect to profile page
+            if ($role == 'employee') {
+                header('location: employeeProfile.php');
+                exit();
+            } else {
+                header('location: customerProfile.php');
+                exit();
+            }
         } else {
-            header('location: customerProfile.php');
-            exit();
+            // show invalid password error
+            echo "<script>alert('Invalid password.')</script>";
         }
     } else {
         // show registration popup
@@ -38,6 +46,7 @@ if (isset($_POST['login'])) {
     }
 
     mysqli_close($con);
+
 }
 ?>
 
@@ -58,8 +67,10 @@ if (isset($_POST['login'])) {
         <h1>Login Form</h3>
             <p>Enter your details to Login </p>
             <form action="login.php" method="post">
-                <input type="text" name="name" id="name" placeholder="Enter your name">
+                <!-- <input type="text" name="name" id="name" placeholder="Enter your name"> -->
                 <input type="email" name="email" id="email" placeholder="Enter your email">
+                <input type="password" name="password" id="password" placeholder="Enter your password">
+
                 <label for="role">Role:</label><br>
                 <select id="role" name="role" style="margin:10px;">
                     <option value="customer">Customer</option>
