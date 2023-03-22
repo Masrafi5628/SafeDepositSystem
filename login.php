@@ -1,16 +1,10 @@
 <?php
+require_once('Database.php');
+
 if (isset($_POST['login'])) {
-    $server = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "test";
+    $db = new Database("localhost", "root", "", "test");
 
-    $con = mysqli_connect($server, $username, $password, $dbname);
-
-    if (!$con) {
-        die("connection to this database failed due to" . mysqli_connect_error());
-    }
-    
+    $con = $db->getConnection();
     $email = $_POST['email'];
     $role = $_POST['role'];
     $password = $_POST['password'];
@@ -28,7 +22,6 @@ if (isset($_POST['login'])) {
         $hashed_password = $row['password_hash'];
 
         if (password_verify($password, $hashed_password)) {
-            // login successful, redirect to profile page
             if ($role == 'employee') {
                 header('location: employeeProfile.php');
                 exit();
@@ -37,11 +30,9 @@ if (isset($_POST['login'])) {
                 exit();
             }
         } else {
-            // show invalid password error
             echo "<script>alert('Invalid password.')</script>";
         }
     } else {
-        // show registration popup
         echo "<script>alert('Please register first.')</script>";
     }
 

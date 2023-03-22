@@ -1,43 +1,23 @@
 <?php
+require_once 'Database.php';
+require_once 'Customer.php';
+
 $insert = false;
 if (isset($_POST['register'])) {
-    $server = "localhost";
-    $username = "root";
-    $password = "";
-    $database = "test";
-
-    $con = mysqli_connect($server, $username, $password, $database);
-    if (!$con) {
-        die("connection to this database failed due to" . mysqli_connect_error());
-    }
-    // echo "Success connecting to the db";
-    // Collect post variables
-    $name = $_POST['name'];
-    $email = $_POST['email'];
-    $phone = $_POST['phone'];
-    $hair_color = $_POST['hair_color'];
-    $eye_color = $_POST['eye_color'];
-    $height = $_POST['height'];
-    $weight = $_POST['weight'];
-    $gender = $_POST['gender'];
-    $password = $_POST['password'];
-    $confirm_password = $_POST['confirm_password'];
-    if ($password != $confirm_password) {
+    $database = new Database("localhost", "root", "", "test");
+    $customer = new Customer($_POST['name'], $_POST['email'], $_POST['phone'], $_POST['hair_color'], $_POST['eye_color'], $_POST['height'], $_POST['weight'], $_POST['gender'], $_POST['password'], $_POST['confirm_password']);
+    if (!$customer->validatePasswordsMatch()) {
         echo "<p class='error'>Error: Passwords do not match.</p>";
     } else {
-        $password_hash = password_hash($password, PASSWORD_DEFAULT);
-        $sql = "INSERT INTO `test`.`Customer` (`name`, `email`, `phone`, `hair_color`, `eye_color`, `height`, `weight`,`gender`, `password_hash`) VALUES ('$name', '$email', '$phone', '$hair_color', '$eye_color', '$height', '$weight','$gender', '$password_hash');";
-
-        // Execute the query
-        if ($con->query($sql) == true) {
+        if ($customer->insertIntoDatabase($database)) {
+            echo "Done"."<br>";
             $insert = true;
         } else {
-            echo "ERROR: $sql <br> $con->error";
+            echo "<p class='error'>Error: Failed to insert record into database.</p>";
         }
     }
 
-    // Close the database connection
-    $con->close();
+
 }
 ?>
 
@@ -86,6 +66,7 @@ if (isset($_POST['register'])) {
                 <option value="employee">Employee</option>
             </select> -->
             <button class="btn" name='register'>Submit</button>
+            <a href="login.php" class="btn" style="position: absolute; top: 20px; right: 20px;">Login</a>
 
         </form>
     </div>

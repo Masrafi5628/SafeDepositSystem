@@ -1,40 +1,32 @@
 <?php
-$insert = false;
-if (isset($_POST['register'])) {
-    $server = "localhost";
-    $username = "root";
-    $password = "";
-    $database = "test";
+require_once('Database.php');
+require_once('Employee.php');
 
-    $con = mysqli_connect($server, $username, $password, $database);
-    if (!$con) {
-        die("connection to this database failed due to" . mysqli_connect_error());
-    }
-    // echo "Success connecting to the db";
-    // Collect post variables
-    // $id = $_POST['id'];
+$insert = false;
+
+if (isset($_POST['register'])) {
+    
+    $db = new Database("localhost", "root", "", "test");
+    $con = $db->getConnection();
+
     $name = $_POST['name'];
     $email = $_POST['email'];
     $phone = $_POST['phone'];
     $role = $_POST['role'];
     $password = $_POST['password'];
     $confirm_password = $_POST['confirm_password'];
-    if ($password != $confirm_password) {
+
+    $employee = new Employee($name, $email, $phone, $role, $password, $confirm_password);
+
+    if (!$employee->validatePassword()) {
         echo "<p class='error'>Error: Passwords do not match.</p>";
     } else {
-        $password_hash = password_hash($password, PASSWORD_DEFAULT);
-        $sql = "INSERT INTO `test`.`Employee` ( `name`, `email`, `phone`, `role`, `password_hash`) VALUES ( '$name', '$email', '$phone', '$role', '$password_hash');";
-
-        // Execute the query
-        if ($con->query($sql) == true) {
+        if ($employee->saveToDatabase($con)) {
             $insert = true;
-        } else {
-            echo "ERROR: $sql <br> $con->error";
         }
     }
 
-    // Close the database connection
-    $con->close();
+    $db->closeConnection();
 }
 ?>
 
@@ -67,11 +59,14 @@ if (isset($_POST['register'])) {
             <label for="role">Role:</label><br>
             <select id="role" name="role" style="margin:10px;">
                 <option value="Biller">Biller</option>
+                <option value="VaultManager">VaultManager</option>
             </select><br>
             <input type="password" name="password" id="password" placeholder="Enter your password"><br>
             <input type="password" name="confirm_password" id="confirm_password"
                 placeholder="Confirm your password"><br>
             <button class="btn" name='register'>Submit</button>
+            <a href="login.php" class="btn" style="position: absolute; top: 20px; right: 20px;">Login</a>
+
         </form>
     </div>
 </body>
