@@ -10,21 +10,27 @@ if (isset($_POST['login'])) {
     $password = $_POST['password'];
 
     if ($role == 'employee') {
-        $sql = "SELECT password_hash FROM Employee WHERE email='$email'";
+        $sql = "SELECT role,password_hash FROM Employee WHERE email='$email'";
     } else {
         $sql = "SELECT password_hash FROM Customer WHERE email='$email'";
     }
 
     $result = mysqli_query($con, $sql);
-
     if (mysqli_num_rows($result) == 1) {
         $row = mysqli_fetch_assoc($result);
         $hashed_password = $row['password_hash'];
-
         if (password_verify($password, $hashed_password)) {
             if ($role == 'employee') {
-                header('location: employeeProfile.php');
-                exit();
+                $roleN = $row['role'];
+                echo $roleN;
+
+                if (strtolower($roleN) == 'biller') {
+                    header('location: billerProfile.php');
+                    exit();
+                } else if (strtolower($roleN) == 'vaultmanager') {
+                    header('location: VaultManagerProfile.php');
+                    exit();
+                }
             } else {
                 header('location: customerProfile.php');
                 exit();
