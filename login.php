@@ -1,5 +1,5 @@
 <?php
-require_once('Database.php');
+require_once('Classes/Database.php');
 
 if (isset($_POST['login'])) {
     $db = new Database("localhost", "root", "", "test");
@@ -41,9 +41,7 @@ if (isset($_POST['login'])) {
     } else {
         echo "<script>alert('Please register first.')</script>";
     }
-
     mysqli_close($con);
-
 }
 ?>
 

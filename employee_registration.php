@@ -1,6 +1,6 @@
 <?php
-require_once('Database.php');
-require_once('Employee.php');
+require_once('Classes/Database.php');
+require_once('Classes/Employee.php');
 
 $insert = false;
 

@@ -1,6 +1,6 @@
 <?php
-require_once 'Database.php';
-require_once 'Customer.php';
+require_once 'Classes/Database.php';
+require_once 'Classes/Customer.php';
 
 $insert = false;
 if (isset($_POST['register'])) {
@@ -10,12 +10,22 @@ if (isset($_POST['register'])) {
         echo "<p class='error'>Error: Passwords do not match.</p>";
     } else {
         if ($customer->insertIntoDatabase($database)) {
-            echo "Done"."<br>";
+            echo "Done" . "<br>";
             $insert = true;
         } else {
             echo "<p class='error'>Error: Failed to insert record into database.</p>";
         }
     }
+    $picture = $_FILES['picture'];
+    $signature = $_FILES['signature'];
+    $nid = $_FILES['nid'];
+    $target_dir = "uploads/";
+    $picture_name = basename($picture["name"]);
+    $signature_name = basename($signature["name"]);
+    $nid_name = basename($nid["name"]);
+    move_uploaded_file($picture["tmp_name"], $target_dir . $picture_name);
+    move_uploaded_file($signature["tmp_name"], $target_dir . $signature_name);
+    move_uploaded_file($nid["tmp_name"], $target_dir . $nid_name);
 
 
 }
@@ -65,7 +75,17 @@ if (isset($_POST['register'])) {
                 <option value="customer">Customer</option>
                 <option value="employee">Employee</option>
             </select> -->
+            <!-- <form action="customer_registration.php" method="post" enctype="multipart/form-data"> -->
+            <!-- previous form fields here -->
+            Upload your photo
+            <input type="file" name="picture" id="picture" accept="image/*">
+            Upload signature
+            <input type="file" name="signature" id="signature" accept="image/*">
+            Upload scanned NID
+            <input type="file" name="nid" id="nid" accept="image/*">
             <button class="btn" name='register'>Submit</button>
+            <!-- </form> -->
+
             <a href="login.php" class="btn" style="position: absolute; top: 20px; right: 20px;">Login</a>
 
         </form>
