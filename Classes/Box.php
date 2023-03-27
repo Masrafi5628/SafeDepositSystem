@@ -2,14 +2,16 @@
 
 class Box
 {
+    private $ID;
     private $size;
     private $rent;
     private $shelf;
 
-    public function __construct($size = null, $shelf = null)
+    public function __construct($size = null, $shelf = null,$ID=null)
     {
         $this->size = $size;
         $this->shelf = $shelf;
+        $this->ID=$ID;
     }
 
     public function saveToDatabase($con)
@@ -35,16 +37,8 @@ class Box
         }
     }
 
-    public function getAssignedBoxByCustomerId($database, $customerId)
-    {
-        $sql = "SELECT * FROM `Box` WHERE `Customer_ID` = $customerId";
-        $result = $database->query($sql);
-        if ($result->num_rows == 1) {
-            return $result->fetch_assoc();
-        } else {
-            return null;
-        }
-    }
+
+      
 
     public function assignBoxToCustomer($database, $customerId, $boxId)
     {
@@ -53,7 +47,7 @@ class Box
         $result = $database->query($sql);
         if ($result->num_rows == 1) {
             // Update the box's customer ID and rent date/time
-            $sql = "UPDATE `Box` SET `Customer_ID` = $customerId, `rent_date_time` = NOW(), `Due_Date_Time` = DATE_ADD(NOW(), INTERVAL 1 MONTH) WHERE `ID` = $boxId";
+            $sql = "UPDATE `Box` SET `Customer_ID` = $customerId, `rent_date_time` = NOW(), `Due_Date_Time` = DATE_ADD(NOW(), INTERVAL 1 YEAR) WHERE `ID` = $boxId";
             if ($database->query($sql)) {
                 return true;
             } else {
