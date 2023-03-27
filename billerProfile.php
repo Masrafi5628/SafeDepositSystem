@@ -67,7 +67,7 @@ if (isset($_POST['sendBills'])) {
     }
 
     $sql = "SELECT name,email,Due_Amount,Due_Date_Time FROM Customer,Box
-         WHERE Customer.ID=Box.Assigned_to AND Due_Date_Time>=NOW() AND Due_Date_Time<=DATE_ADD(NOW(), INTERVAL 1 MONTH)";
+         WHERE Customer.ID=Box.Customer_ID AND Due_Date_Time>=NOW() AND Due_Date_Time<=DATE_ADD(NOW(), INTERVAL 1 MONTH)";
 
     $result = mysqli_query($con, $sql);
     // echo $result;

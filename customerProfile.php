@@ -1,7 +1,7 @@
 <?php
 require_once 'Classes/Database.php';
 require_once 'Classes/Box.php';
-
+session_start();
 // Check if the customer has rented a box
 $customerId = $_SESSION['customer_id'];
 $database = new Database("localhost", "root", "", "test");

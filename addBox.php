@@ -3,8 +3,8 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-require_once('Database.php');
-require_once('Box.php');
+require_once('Classes/Database.php');
+require_once('Classes/Box.php');
 
 $insert = false;
 
@@ -14,8 +14,8 @@ if (isset($_POST['addBox'])) {
     $con = $db->getConnection();
 
     $size = $_POST['boxSize'];
-    $rent = $_POST['rent'];
-    $box = new Box($size, $rent);
+    $shelf = $_POST['shelf'];
+    $box = new Box($size, $shelf);
 
     if ($box->saveToDatabase($con)) {
         $insert = true;
@@ -60,7 +60,8 @@ if (isset($_POST['addBox'])) {
                 <option value="26x21">26 x 21</option>
                 <option value="38x21">38 x 21</option>
             </select>
-            <input type="double" name="rent" id="rent" placeholder="Enter box rent(dollars/year)"><br>
+            <!-- <input type="double" name="rent" id="rent" placeholder="Enter box rent(dollars/year)"><br> -->
+            <input type="number" name="shelf" id="shelf" placeholder="Enter shelf no."><br>
 
             <button class="btn" name='addBox'>Add Box</button>
 

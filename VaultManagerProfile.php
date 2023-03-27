@@ -13,7 +13,10 @@
     <img class="bg" src="bg.jpg">
     <div class="container">
         <h1>Hello! Vault Manager</h3>
-            <a class="btn" name="login" href="addBox.php">Add Box</button>
+            <a class="btn" name="login" href="addBox.php" style="display: block;text-align: center;margin:20px;">Add
+                Box</button><br>
+                <a class="btn" name="login" href="updateRent.php"
+                    style="display: block;text-align: center;margin:20px;">Update Rent</button>
     </div>
     <script src="index.js">  </script>
 </body>
