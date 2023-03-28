@@ -1,3 +1,8 @@
+<?php
+require_once('header.php');
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -13,9 +18,12 @@
     <img class="bg" src="bg.jpg">
     <div class="container">
         <h1>Please Choose your intended operation</h3>
-            <a class="btn" name="rentBox" href="rentBox.php" style="display: block;text-align: center;margin:20px;">Rent Box</button><br>
+            <a class="btn" name="rentBox" href="rentBox.php" style="display: block;text-align: center;margin:20px;">Rent Box</a><br>
                 <a class="btn" name="checkStatus" href="makePayment.php"
-                    style="display: block;text-align: center;margin:20px;">Make Payment</button>
+                    style="display: block;text-align: center;margin:20px;">Make Payment</a>
+            <?php 
+                echo $_SESSION['ID'];
+            ?>
     </div>
     <script src="index.js">  </script>
 </body>

@@ -1,25 +1,29 @@
 <?php
 require_once('Classes/Database.php');
+require_once('header.php');
 
 if (isset($_POST['login'])) {
     $db = new Database("localhost", "root", "", "test");
-
+    
     $con = $db->getConnection();
     $email = $_POST['email'];
     $role = $_POST['role'];
     $password = $_POST['password'];
-
+    
     if ($role == 'employee') {
-        $sql = "SELECT role,password_hash FROM Employee WHERE email='$email'";
+        $sql = "SELECT id,role,password_hash FROM employee WHERE email='$email'";
     } else {
-        $sql = "SELECT password_hash FROM Customer WHERE email='$email'";
+        $sql = "SELECT id,password_hash FROM customer WHERE email='$email'";
     }
-
+    
     $result = mysqli_query($con, $sql);
     if (mysqli_num_rows($result) == 1) {
         $row = mysqli_fetch_assoc($result);
         $hashed_password = $row['password_hash'];
         if (password_verify($password, $hashed_password)) {
+            Session::init();
+            Session::set('id',$row['id']);
+            $_SESSION['ID']=$row['id'];
             if ($role == 'employee') {
                 $roleN = $row['role'];
                 echo $roleN;
