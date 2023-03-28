@@ -42,6 +42,7 @@
 
                 // display box information
                 echo "<div class='box-info' style='color:red'>";
+                echo "<p>Box ID: " . $row['ID'] . "</p>";
                 echo "<p>Box Size: " . $row['size'] . "</p>";
                 echo "<p>Due Amount: $" . $row['Due_Amount'] . "</p>";
                 echo "</div>";

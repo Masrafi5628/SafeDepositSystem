@@ -23,7 +23,7 @@ $mail->SetFrom("test.service.working@gmail.com");
 function smtp_mailer($to, $subject, $msg)
 {
 
-    global $counter,$mail;
+    global $counter, $mail;
     $counter += 1;
     // echo $counter . "<br>";
 
@@ -44,11 +44,11 @@ function smtp_mailer($to, $subject, $msg)
     // echo $counter . "<br>";
     // $mail->send();
     if (!$mail->Send()) {
-        echo $counter . " if <br>";
+        // echo $counter . " if <br>";
         echo $mail->ErrorInfo;
     } else {
-        echo $counter . " else <br>";
-        // return 'Sent';
+        // echo $counter . " else <br>";
+        return 'Sent';
     }
     echo $counter . " end <br>";
 }
@@ -66,15 +66,25 @@ if (isset($_POST['sendBills'])) {
         die("connection to this database failed due to" . mysqli_connect_error());
     }
 
-    $sql = "SELECT name,email,Due_Amount,Due_Date_Time FROM Customer,Box
-         WHERE Customer.ID=Box.Customer_ID AND Due_Date_Time>=NOW() AND Due_Date_Time<=DATE_ADD(NOW(), INTERVAL 1 MONTH)";
+    $sql = "SELECT box.ID as bid,name,email,Due_Amount,Due_Date_Time FROM customer,box
+         WHERE customer.ID=box.Customer_ID AND Due_Date_Time>=NOW() AND Due_Date_Time<=DATE_ADD(NOW(), INTERVAL 1 MONTH)";
 
     $result = mysqli_query($con, $sql);
     // echo $result;
     while ($row = mysqli_fetch_assoc($result)) {
         $to = $row['email'];
         $subject = "Your bill is due";
-        $message = "Hi " . $row['name'] . ",\n\nThis is a reminder that your bill of $" . $row['Due_Amount'] . " is due on " . $row['Due_Date_Time'] . ".\n\nPlease make the payment as soon as possible.\n\nThanks,\nThe Billing Team";
+        // $message = "Hi <h5>" . $row['name'] . "</h5>,\n\nThis is a reminder that your bill of <h5>$" . $row['Due_Amount']. "</h5> for <h4>Box ID ".$row['bid']  . "</h4> is due on <h5>" . $row['Due_Date_Time'] . "</h5>.\n\nPlease make the payment as soon as possible.\n\nThanks,\nThe Billing Team";
+        $headers = "MIME-Version: 1.0" . "\r\n";
+        // $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+        $headers .= "Content-Type: text/html; charset=ISO-8859-1\r\n";
+        // generate email body
+        $message = "<html><body>";
+        $message .= "<h2>Hi " . $row['name'] . ",</h2>";
+        $message .= "<p>This is a reminder that your bill of <b>$" . $row['Due_Amount'] . "</b> for <b>Box ID #" . $row['bid'] . "</b> is due on <b>" . $row['Due_Date_Time'] . "</b>.</p>";
+        $message .= "<p>Please make the payment as soon as possible.</p>";
+        $message .= "<p>Thanks,<br>The Billing Team</p>";
+        $message .= "</body></html>";
         echo $row['name'];
         echo "<br>";
         echo $to;
