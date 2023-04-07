@@ -28,5 +28,17 @@ class Database
     {
         $this->connection->close();
     }
+
+    public function query($sql)
+    {
+        $result = $this->connection->query($sql);
+        if (!$result) {
+            die("Query failed: " . $this->connection->error);
+        }
+        return $result;
+    }
+
+
+
 }
 ?>

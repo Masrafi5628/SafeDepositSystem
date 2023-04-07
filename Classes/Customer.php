@@ -51,7 +51,7 @@ class Customer
     public function insertIntoDatabase(Database $database)
     {
         $con = $database->getConnection();
-        $sql = "INSERT INTO `test`.`Customer` (`name`, `email`, `phone`, `hair_color`, `eye_color`, `height`, `weight`, `gender`, `password_hash`) VALUES ('$this->name', '$this->email', '$this->phone', '$this->hair_color', '$this->eye_color', '$this->height', '$this->weight', '$this->gender', '$this->password_hash');";
+        $sql = "INSERT INTO `test`.`customer` (`name`, `email`, `phone`, `hair_color`, `eye_color`, `height`, `weight`, `gender`, `password_hash`) VALUES ('$this->name', '$this->email', '$this->phone', '$this->hair_color', '$this->eye_color', '$this->height', '$this->weight', '$this->gender', '$this->password_hash');";
         if ($con->query($sql) == true) {
             return true;
         } else {
