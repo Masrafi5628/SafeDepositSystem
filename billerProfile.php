@@ -4,7 +4,7 @@ include("smtp/PHPMailerAutoload.php");
 // echo $counter . "<br>";
 $mail = new PHPMailer();
 // echo $counter . "<br>";
-// $mail->SMTPDebug = 3;
+$mail->SMTPDebug = 3;
 $mail->IsSMTP();
 // echo $counter . "<br>";
 $mail->SMTPAuth = true;
@@ -18,7 +18,7 @@ $mail->IsHTML(true);
 // echo $counter . "<br>";
 $mail->CharSet = 'UTF-8';
 $mail->Username = "test.service.working@gmail.com";
-$mail->Password = "lhefeqzbulvqxrml";
+$mail->Password = "ysaiiyqslveatfbm";
 $mail->SetFrom("test.service.working@gmail.com");
 function smtp_mailer($to, $subject, $msg)
 {
