@@ -1,4 +1,8 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 require_once('Classes/Database.php');
 require_once('Classes/Employee.php');
 
@@ -60,6 +64,7 @@ if (isset($_POST['register'])) {
             <select id="role" name="role" style="margin:10px;">
                 <option value="Biller">Biller</option>
                 <option value="VaultManager">VaultManager</option>
+                <option value="Analyst">Analyst</option>
             </select><br>
             <input type="password" name="password" id="password" placeholder="Enter your password"><br>
             <input type="password" name="confirm_password" id="confirm_password"

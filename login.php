@@ -4,35 +4,38 @@ require_once('header.php');
 
 if (isset($_POST['login'])) {
     $db = new Database("localhost", "root", "", "test");
-    
+
     $con = $db->getConnection();
     $email = $_POST['email'];
     $role = $_POST['role'];
     $password = $_POST['password'];
-    
+
     if ($role == 'employee') {
         $sql = "SELECT id,role,password_hash FROM employee WHERE email='$email'";
     } else {
         $sql = "SELECT id,password_hash FROM customer WHERE email='$email'";
     }
-    
+
     $result = mysqli_query($con, $sql);
     if (mysqli_num_rows($result) == 1) {
         $row = mysqli_fetch_assoc($result);
         $hashed_password = $row['password_hash'];
         if (password_verify($password, $hashed_password)) {
             Session::init();
-            Session::set('id',$row['id']);
-            $_SESSION['ID']=$row['id'];
+            Session::set('id', $row['id']);
+            $_SESSION['ID'] = $row['id'];
             if ($role == 'employee') {
                 $roleN = $row['role'];
-                echo $roleN;
+                // echo $roleN;
 
                 if (strtolower($roleN) == 'biller') {
                     header('location: billerProfile.php');
                     exit();
                 } else if (strtolower($roleN) == 'vaultmanager') {
-                    header('location: VaultManagerProfile.php');
+                    header('location: vaultManagerProfile.php');
+                    exit();
+                } else if (strtolower($roleN) == 'analyst') {
+                    header('location: analystProfile.php');
                     exit();
                 }
             } else {

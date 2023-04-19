@@ -41,6 +41,8 @@ $result = $db->query("SELECT * FROM customer where id=" . $_SESSION['ID']);
                 Box</a><br>
             <a class="btn" name="checkStatus" href="makePayment.php"
                 style="display: block;text-align: center;margin:20px;">Make Payment</a>
+            <a class="btn" name="openBox" href="openBox.php"
+                style="display: block;text-align: center;margin:20px;">Open Box</a>
             <?php
             echo $_SESSION['ID'];
             ?>

@@ -38,7 +38,7 @@ class Employee
         $phone = $this->phone;
         $role = $this->role;
         $password_hash = $this->hashPassword();
-        $sql = "INSERT INTO `test`.`Employee` (`name`, `email`, `phone`, `role`, `password_hash`) VALUES ('$name', '$email', '$phone', '$role', '$password_hash');";
+        $sql = "INSERT INTO `test`.`employee` (`name`, `email`, `phone`, `role`, `password_hash`) VALUES ('$name', '$email', '$phone', '$role', '$password_hash');";
         if ($con->query($sql) == true) {
             return true;
         } else {
